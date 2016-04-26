@@ -9,5 +9,5 @@
 #SBATCH --partition="scavenger"
 
 
-python ../Scripts/test_segmentation_camvid.py --model ../Models/segnet_basic_inference.prototxt --weights ../Models/Inference/segnet_basic_camvid.caffemodel --iter 233
+python test_segmentation_camvid.py --model ../Example_Models/segnet_basic_camvid.prototxt --weights ../Models/Inference/segnet_basic_camvid.caffemodel --input /lustre/yixi/segnet/CamVid/test.txt --output predictions_camvid/
 
