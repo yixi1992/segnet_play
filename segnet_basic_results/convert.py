@@ -20,7 +20,7 @@ if __name__=='__main__':
 		RSize = (480, 360)
 		LabelSize = (480, 360)
 		nopadding = True
-		use_flow = []
+		use_flow = ['f1']
 		flow_dirs = ['flow_x', 'flow_y']
 		RGB_mean_pad = False
 		flow_mean_pad = True
@@ -142,7 +142,7 @@ if __name__=='__main__':
 		############################# Creating LMDB for Validation Flow Data ##############################
 		if flow_Val!=[]:
 			print("Creating Validation Data LMDB File ..... ")
-			createLMDBImage(os.path.join(lmdb_dir,'val-flow-lmdb'), int(1e13), None, flows=flows_Val,  keys=Val_keys, args=args)
+			createLMDBImage(os.path.join(lmdb_dir,'val-flow-lmdb'), int(1e13), None, flows=flow_Val,  keys=Val_keys, args=args)
 
 		############################# Creating LMDB for Validation Labels ##############################
 		print("Creating Validation Label LMDB File ..... ")
