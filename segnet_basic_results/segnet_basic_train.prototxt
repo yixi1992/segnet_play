@@ -1,5 +1,4 @@
 name: "segnet"
-
 layer {
   name: "data"
   type: "Data"
@@ -8,11 +7,11 @@ layer {
     phase: TRAIN
   }
   transform_param {
-   	mean_value: 110
-	mean_value: 108
-	mean_value: 105
- 	mean_value: 128
-	mean_value: 128
+   	mean_value: 0
+	mean_value: 0
+	mean_value: 0
+	mean_value: 0
+	mean_value: 0
   }
   data_param {
     source: "camvidtrainvalfmp480360f1np_lmdb/train-lmdb"
@@ -41,11 +40,11 @@ layer {
     phase: TEST
   }
   transform_param {
-   	mean_value: 110
-	mean_value: 108
-	mean_value: 105
-	mean_value: 128
-	mean_value: 128
+   	mean_value: 0
+	mean_value: 0
+	mean_value: 0
+  	mean_value: 0
+	mean_value: 0
   }
   data_param {
     source: "camvidtrainvalfmp480360f1np_lmdb/val-lmdb"
@@ -108,7 +107,7 @@ layer {
   name: "conv1_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -168,7 +167,7 @@ layer {
   name: "conv2_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -228,7 +227,7 @@ layer {
   name: "conv3_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -288,7 +287,7 @@ layer {
   name: "conv4_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -359,7 +358,7 @@ layer {
   name: "conv_decode4_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -411,7 +410,7 @@ layer {
   name: "conv_decode3_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -463,7 +462,7 @@ layer {
   name: "conv_decode2_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -515,7 +514,7 @@ layer {
   name: "conv_decode1_bn"
   type: "BN"
   bn_param {
-	
+	bn_mode: INFERENCE
 	scale_filler {
 	  type: "constant"
 	  value: 1
@@ -527,7 +526,7 @@ layer {
  }
 }
 layer {
-  name: "conv_classifier"
+  name: "dense_softmax_inner_prod"
   type: "Convolution"
   bottom: "conv_decode1"
   top: "conv_classifier"
@@ -548,6 +547,15 @@ layer {
     bias_filler {
       type: "constant"
     }
+  }
+}
+layer {
+  name: "argmax"
+  type: "ArgMax"
+  bottom: "conv_classifier"
+  top: "argmax"
+  argmax_param {
+    axis: 1
   }
 }
 layer {
@@ -577,6 +585,7 @@ layer {
   name: "accuracy"
   type: "Accuracy"
   bottom: "conv_classifier"
+  #bottom: "argmax"
   bottom: "label"
   top: "accuracy"
   top: "per_class_accuracy"

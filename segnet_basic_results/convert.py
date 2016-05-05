@@ -20,7 +20,7 @@ if __name__=='__main__':
 		RSize = (480, 360)
 		LabelSize = (480, 360)
 		nopadding = True
-		use_flow = ['f1']
+		use_flow = ['f1','b1']
 		flow_dirs = ['flow_x', 'flow_y']
 		RGB_mean_pad = False
 		flow_mean_pad = True

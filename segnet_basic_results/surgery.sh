@@ -8,7 +8,7 @@
 
 
 python ../../face_segmentation_finetune/utils/surgery_flow.py \
--f '../Models/segnet_basic_inference.prototxt' \
+-f '../Example_Models/segnet_basic_camvid.prototxt' \
 -c '../Models/Inference/segnet_basic_camvid.caffemodel' \
 -t 'segnet_basic_deploy.prototxt' \
 -o 'basic_camvid_surg.caffemodel' \

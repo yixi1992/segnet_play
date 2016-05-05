@@ -35,7 +35,7 @@ net = caffe.Net(args.model,
 #input_source = '/lustre/yixi/segnet/Camvid/test.txt'
 input_source = args.input
 
-
+acc=[]
 for line in open(input_source,'r'):
 	files = line.rstrip('\n').split(' ')
 	im_file = files[0]
@@ -110,7 +110,8 @@ for line in open(input_source,'r'):
 	label_flat = label
 	scipy.misc.imsave(IMAGE_FILE+'_gt.png', label_flat)
 	print np.sum(np.equal(ind,label_flat))
-
+	
+	acc = acc+[float(np.sum(np.equal(ind,label_flat)))/np.sum(label_flat!=11)]
 	print 'acc=', np.sum(np.equal(ind,label_flat)), '/', np.sum(label_flat!=11), '=', float(np.sum(np.equal(ind,label_flat)))/np.sum(label_flat!=11)
 	#scipy.misc.toimage(rgb, cmin=0.0, cmax=255).save(IMAGE_FILE+'_segnet.png')
 
@@ -130,7 +131,7 @@ for line in open(input_source,'r'):
 	plt.close(fig)
 	#plt.show()
 
-	if True:
+	if False:
 		plt.figure()
 		plt.imshow(image,vmin=0, vmax=1)
 		plt.figure()
@@ -141,4 +142,4 @@ for line in open(input_source,'r'):
 
 
 print 'Success!'
-
+print 'acc=', np.mean(acc)

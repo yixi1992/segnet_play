@@ -36,8 +36,7 @@ for i in range(0, args.iter):
 	label = net.blobs['label'].data
 	predicted = net.blobs['prob'].data
 	image = np.squeeze(image[0,:,:,:])
-	output = np.squeeze(predicted[0,:,:,:])
-	ind = np.argmax(output, axis=0)
+	ind = np.argmax(np.squeeze(predicted), axis=0)
 	ind = np.array(ind, dtype=np.uint8)
 
 	print ind.shape
@@ -85,7 +84,6 @@ for i in range(0, args.iter):
 	image = image/255.0
 
 	image = np.transpose(image, (1,2,0))
-	output = np.transpose(output, (1,2,0))
 	image = image[:,:,(2,1,0)]
 
 
@@ -94,7 +92,7 @@ for i in range(0, args.iter):
 	scipy.misc.imsave(IMAGE_FILE+'_gt.png', label_flat)
 	print np.sum(np.equal(ind,label_flat))
 
-	print 'acc=', np.sum(np.equal(ind,label_flat)), '/', np.sum(label_flat!=11), '=', np.sum(np.equal(ind,label_flat))/np.sum(label_flat!=11)
+	print 'acc=', np.sum(np.equal(ind,label_flat)), '/', np.sum(label_flat!=11), '=', float(np.sum(np.equal(ind,label_flat)))/np.sum(label_flat!=11)
 	#scipy.misc.toimage(rgb, cmin=0.0, cmax=255).save(IMAGE_FILE+'_segnet.png')
 
 	fig = plt.figure()
