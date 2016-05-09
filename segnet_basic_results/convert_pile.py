@@ -30,7 +30,7 @@ if __name__=='__main__':
 		flow_pad_value = 128 if flow_mean_pad else 0
 
 
-		lmdb_dir = 'camvidtrainval' + ('rgbmp' if RGB_mean_pad else '') + ('fmp' if flow_mean_pad else '') + str(RSize[0]) + str(RSize[1]) + (''.join(use_flow)) + ('np' if nopadding else '') + '_lmdb'
+		lmdb_dir = 'camvidpiletrainval' + ('rgbmp' if RGB_mean_pad else '') + ('fmp' if flow_mean_pad else '') + str(RSize[0]) + str(RSize[1]) + (''.join(use_flow)) + ('np' if nopadding else '') + '_lmdb'
 			
 		args = CArgs()
 		args.resize = resize
@@ -104,63 +104,20 @@ if __name__=='__main__':
 
 		############################# Creating LMDB for Training Data ##############################
 		print("Creating Training Data LMDB File ..... ")
-		createLMDBImage(os.path.join(lmdb_dir,'train-lmdb'), int(1e13), inputs_Train, flows=[],  keys=Train_keys, args=args)
-
-		############################ Creating LMDB for Training Flow Data ##############################
-		if flow_Train!=[]:
-			print("Creating Training Flow LMDB File ..... ")
-			createLMDBImage(os.path.join(lmdb_dir,'train-flow-lmdb'), int(1e13), None, flows=flow_Train,  keys=Train_keys, args=args)
-
-		############################# Creating LMDB for Training Labels ##############################
-		print("Creating Training Label LMDB File ..... ")
-		createLMDBLabel(os.path.join(lmdb_dir,'train-label-lmdb'), int(1e12), inputs_Train_Label, keys=Train_keys, args=args)
-	
-
+		createLMDBImage(os.path.join(lmdb_dir,'train-pile-lmdb'), int(1e13), inputs_Train, flows=[inputs_Train_Label]+flow_Train,  keys=Train_keys, args=args)
 
 
 		############################# Creating LMDB for TrainVal Data ##############################
 		print("Creating TrainVal Data LMDB File ..... ")
-		createLMDBImage(os.path.join(lmdb_dir,'trainval-lmdb'), int(1e13), inputs_TrainVal, flows=[],  keys=TrainVal_keys, args=args)
-
-		############################# Creating LMDB for TrainVal Flow Data ##############################
-		if flow_TrainVal!=[]:
-			print("Creating TrainVal Flow LMDB File ..... ")
-			createLMDBImage(os.path.join(lmdb_dir,'trainval-flow-lmdb'), int(1e13), None, flows=flow_TrainVal,  keys=TrainVal_keys, args=args)
-		 
-		############################# Creating LMDB for TrainVal Labels ##############################
-		print("Creating TrainVal Label LMDB File ..... ")
-		createLMDBLabel(os.path.join(lmdb_dir,'trainval-label-lmdb'), int(1e12), inputs_TrainVal_Label, keys=TrainVal_keys, args=args)
-
-
+		createLMDBImage(os.path.join(lmdb_dir,'trainval-pile-lmdb'), int(1e13), inputs_TrainVal, flows=[inputs_TrainVal_Label]+flow_TrainVal,  keys=TrainVal_keys, args=args)
 
 
 		############################# Creating LMDB for Validation Data ##############################
 		print("Creating Validation Data LMDB File ..... ")
-		createLMDBImage(os.path.join(lmdb_dir,'val-lmdb'), int(1e13), inputs_Val, flows=[],  keys=Val_keys, args=args)
-
-
-		############################# Creating LMDB for Validation Flow Data ##############################
-		if flow_Val!=[]:
-			print("Creating Validation Data LMDB File ..... ")
-			createLMDBImage(os.path.join(lmdb_dir,'val-flow-lmdb'), int(1e13), None, flows=flow_Val,  keys=Val_keys, args=args)
-
-		############################# Creating LMDB for Validation Labels ##############################
-		print("Creating Validation Label LMDB File ..... ")
-		createLMDBLabel(os.path.join(lmdb_dir,'val-label-lmdb'), int(1e12), inputs_Val_Label, keys=Val_keys, args=args)
-
-
+		createLMDBImage(os.path.join(lmdb_dir,'val-pile-lmdb'), int(1e13), inputs_Val, flows=[inputs_Val_Label]+flow_Val,  keys=Val_keys, args=args)
 
 
 		############################# Creating LMDB for Testing Data ##############################
 		print("Creating Testing Data LMDB File ..... ")
-		createLMDBImage(os.path.join(lmdb_dir,'test-lmdb'), int(1e13), inputs_Test, flows=[], keys=Test_keys, args=args)
-
-		############################# Creating LMDB for Testing Flow Data ##############################
-		if flow_Test!=[]:
-			print("Creating Testing Data LMDB File ..... ")
-			createLMDBImage(os.path.join(lmdb_dir,'test-flow-lmdb'), int(1e13), None, flows=flow_Test, keys=Test_keys, args=args)
-
-		############################# Creating LMDB for Testing Labels ##############################
-		print("Creating Testing Label LMDB File ..... ")
-		createLMDBLabel(os.path.join(lmdb_dir,'test-label-lmdb'), int(1e12), inputs_Test_Label, keys=Test_keys, args=args)
+		createLMDBImage(os.path.join(lmdb_dir,'test-pile-lmdb'), int(1e13), inputs_Test, flows=[inputs_Test_Label]+flow_Test, keys=Test_keys, args=args)
 
